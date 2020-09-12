@@ -17,7 +17,7 @@ module.exports = {
 		path: path.join(__dirname, "/dist"),
 		filename: "index-bundle.js"
 	},  devServer: {
-        host: '0.0.0.0',
+        host: '127.0.0.1',
 	compress: true,
         disableHostCheck: true
     },
@@ -48,7 +48,7 @@ module.exports = {
 	},
 	plugins: [
 		new CopyWebpackPlugin([
-			{ from: 'Client/image', to: 'Client/image' },
+			{ from: 'Client/icon', to: 'Client/icon' },
 		]),
 		new HtmlWebpackPlugin({
 			template: "./Client/index.html"
