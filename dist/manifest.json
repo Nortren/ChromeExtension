@@ -11,13 +11,14 @@
     "128" :  "Client/icon/128.png"
   },
   "background": {
-    "page": "index.html"  //указываем имя и адрес страницы,выполняемой в фоновом режиме (невидимая)
+    "page": "index.html"
   },
-  "permissions": [          // настройки разрешений
-    "tabs" ,  // работает в каждой открытой вкладке
+  "chrome_url_overrides": {
+    "newtab": "test.html"
+  },
+  "permissions": [
+    "tabs" ,
     "bookmarks" ,
-    "http://www.safezone.cc/" ,
-    "http://*.google.com/" , //список адресов,к которым можно будет обращаться
     "unlimitedStorage", //Снимаем ограничение наобъем кэшированных данных для сайтов  5 МБ.
     "contextMenus", //подключаем контексное меню
     "notifications"   //подключаем уведомления

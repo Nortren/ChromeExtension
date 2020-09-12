@@ -6,17 +6,20 @@ function App() {
 
 // Создаем пункт меню перехода на sz
     const contexts = ["page","selection"];
+
     for (let i = 0; i < contexts.length; i++) {
         const context = contexts[i];
-        const title = "Перейти на SafeZone.cc";
+        const title = "test new page";
         const id = chrome.contextMenus.create({"title": title, "contexts":[context],
-            "onclick": opensz});
+            "onclick": openNewPage});
     }
 
 
-    function opensz(info, tab) {
-        window.open('https://yandex.ru');
-    };
+
+    function openNewPage() {
+        const optionsUrl = chrome.extension.getURL('test.html');
+        chrome.tabs.create({url: optionsUrl});
+    }
 
   return (
     <div className="App">
@@ -25,4 +28,4 @@ function App() {
   );
 }
 ReactDOM.render(<App/>, document.getElementById("root"));
-export default App;
+

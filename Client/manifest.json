@@ -6,18 +6,19 @@
     "default_popup": "index.html"
   },
   "icons" :  {
-    "16" :  "icon/16.png",
-    "48" :  "icon/48.png",
-    "128" :  "icon/128.png"
+    "16" :  "Client/icon/16.png",
+    "48" :  "Client/icon/48.png",
+    "128" :  "Client/icon/128.png"
   },
   "background": {
-    "page": "background.html"  //указываем имя и адрес страницы,выполняемой в фоновом режиме (невидимая)
+    "page": "index.html"
   },
-  "permissions": [          // настройки разрешений
-    "tabs" ,  // работает в каждой открытой вкладке
+  "chrome_url_overrides": {
+    "newtab": "test.html"
+  },
+  "permissions": [
+    "tabs" ,
     "bookmarks" ,
-    "http://www.safezone.cc/" ,
-    "http://*.google.com/" , //список адресов,к которым можно будет обращаться
     "unlimitedStorage", //Снимаем ограничение наобъем кэшированных данных для сайтов  5 МБ.
     "contextMenus", //подключаем контексное меню
     "notifications"   //подключаем уведомления
