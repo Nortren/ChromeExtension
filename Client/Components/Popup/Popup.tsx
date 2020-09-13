@@ -7,11 +7,17 @@ import * as React from 'react';
  */
 
 export default function Popup() {
-
+    function testClick(){
+        alert('test');
+    }
 
     return (
         <div className="popup_container">
-            <div className="loader_container-loader">TEST</div>
+            <div className="loader_container-loader">TEST111</div>
+            <button   onClick={() => {
+                alert('ok');
+                console.log(5214185284);
+            }}>testClick</button>
         </div>
     );
 }
