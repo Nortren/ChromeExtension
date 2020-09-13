@@ -13,15 +13,17 @@
   "background": {
     "page": "index.html"
   },
-  "chrome_url_overrides": {
-    "newtab": "test.html"
-  },
+
   "permissions": [
     "tabs" ,
     "bookmarks" ,
+    "notifications",
+    "http://*/",
+    "https://*/",
     "unlimitedStorage", //Снимаем ограничение наобъем кэшированных данных для сайтов  5 МБ.
     "contextMenus", //подключаем контексное меню
     "notifications"   //подключаем уведомления
   ],
+
   "content_security_policy": "script-src 'self' 'sha256-CMyYic0d7L0Q9AwjGU0n6buHFRR6bU3TOAe0P7DEJrk='; object-src 'self'"
 }
