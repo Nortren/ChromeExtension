@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import  {Popup} from './Components/componentsLibrary';
 import {useEffect} from 'react-redux';
 import './Components/componentsLibrary.css'
-const contexts = ["page", "selection"];
+
 
 
 document.addEventListener('mouseup', function (event) {
@@ -13,6 +13,7 @@ document.addEventListener('mouseup', function (event) {
 function App() {
     const [selectionWord, setSelectionWord] = React.useState<object[]>('test');
     React.useEffect(() => {
+        const contexts = ["page", "selection"];
         for (let i = 0; i < contexts.length; i++) {
             const context = contexts[i];
             const title = "test new page";
