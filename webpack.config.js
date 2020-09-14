@@ -15,24 +15,23 @@ function generateHtmlPlugins(templateDir) {
         return new HtmlWebpackPlugin({
             filename: `${name}.html`,
             template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`),
-            inject: false,
+            // inject: false,
         })
     })
 }
 
-const htmlPlugins = generateHtmlPlugins('./Client/templates/');
+const htmlPlugins = generateHtmlPlugins('./src/templates/');
 
 module.exports = {
-    entry: "./Client/App.js",
-    devServer: {
-        host: '127.0.0.1',
-        compress: true,
-        disableHostCheck: true
+    entry: {
+        popup: path.join(__dirname, "src/App.tsx"),
+        eventPage: path.join(__dirname, "src/eventPage.ts")
     },
     output: {
-        path: path.join(__dirname, "/dist"),
-        filename: "index-bundle.js"
-    }, devServer: {
+        path: path.join(__dirname, "dist"),
+        filename: "[name].js"
+    },
+    devServer: {
         host: '127.0.0.1',
         compress: true,
         disableHostCheck: true
@@ -40,14 +39,24 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                test: /\.tsx?$/,
+                use: ["ts-loader"]
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                test: /\.(css|less)$/,
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "less-loader"
+                    }]
             },
+
             {
                 test: /\.(png|gif|jpe?g)$/,
                 use: [
@@ -64,19 +73,10 @@ module.exports = {
     },
     plugins: [
         new CopyWebpackPlugin([
-            {from: 'Client/icon', to: 'Client/icon'},
-        ]),
-        new HtmlWebpackPlugin({
-            template: "./Client/index.html"
-        })
+            {from: 'src/icon', to: 'src/icon'},
+        ])
     ].concat(htmlPlugins),
-    optimization: {
-        // minimizer: [
-        // 	new UglifyJSPlugin({ sourceMap: true }),
-        // 	// new ImageminWebpackPlugin({
-        // 	// 	test: /\.(png|jpe?g|gif|svg)$/,
-        // 	// })
-        // ],
-    },
-
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", '.css']
+    }
 };
