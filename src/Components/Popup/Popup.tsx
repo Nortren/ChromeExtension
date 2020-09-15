@@ -1,23 +1,27 @@
 import * as React from 'react';
 /**
- * Компонент лоадер загрузки
- * показываем его пока нам не пришли готовые данные
+ * Компонент окно приложения
  * @returns {any}
  * @constructor
  */
 
 export default function Popup() {
-    function testClick(){
-        alert('test');
-    }
-
     return (
         <div className="popup_container">
-            <div className="loader_container-loader">TEST111</div>
-            <button   onClick={() => {
-                alert('ok');
-                console.log(5214185284);
-            }}>testClick</button>
+            <div id="popupHeader">
+                by Nortren
+            </div>
+            <div id="popupBodyLeft">
+                <div className="loader_container-loader"></div>
+            </div>
+            <div id="popupBodyMiddle">
+                <div className="loader_container-loader"></div>
+            </div>
+            <div id="popupBodyRight">
+                <div className="loader_container-loader"></div>
+            </div>
+            <div id="popupFooter">
+            </div>
         </div>
     );
 }

@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const {ImageminWebpackPlugin} = require("imagemin-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -12,10 +13,11 @@ function generateHtmlPlugins(templateDir) {
         const parts = item.split('.');
         const name = parts[0];
         const extension = parts[1];
+        const injectStatus = name === 'index';
         return new HtmlWebpackPlugin({
             filename: `${name}.html`,
             template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`),
-            // inject: false,
+            inject: true,
         })
     })
 }
@@ -24,7 +26,7 @@ const htmlPlugins = generateHtmlPlugins('./src/templates/');
 
 module.exports = {
     entry: {
-        popup: path.join(__dirname, "src/App.tsx"),
+        popup: path.join(__dirname, "src/index.tsx"),
         eventPage: path.join(__dirname, "src/eventPage.ts")
     },
     output: {
@@ -44,17 +46,8 @@ module.exports = {
                 use: ["ts-loader"]
             },
             {
-                test: /\.(css|less)$/,
-                use: [
-                    {
-                        loader: "style-loader"
-                    },
-                    {
-                        loader: "css-loader"
-                    },
-                    {
-                        loader: "less-loader"
-                    }]
+                test: /\.css$/i,
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
 
             {
@@ -74,7 +67,10 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin([
             {from: 'src/icon', to: 'src/icon'},
-        ])
+        ]),
+        new MiniCssExtractPlugin({
+            filename: './src/Components/componentsLibrary.css',
+        })
     ].concat(htmlPlugins),
     resolve: {
         extensions: [".ts", ".tsx", ".js", '.css']
