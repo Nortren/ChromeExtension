@@ -32,6 +32,7 @@ interface IFrame {
 
 /**
  * Функиця инициализации фонового скрипта
+ * И подписка на событие клика по контекстному меню
  */
 const romeExtensionIsActivate = () => {
     chrome.contextMenus.create({
@@ -40,14 +41,20 @@ const romeExtensionIsActivate = () => {
         contexts: ["all"],
     });
 
-    chrome.contextMenus.onClicked.addListener((info: IFrame) => {
-        if (info.menuItemId == "selected") {
-            const optionsUrl = chrome.extension.getURL('separateTab.html');
-            createNewTabs(optionsUrl, info);
-
-        }
+    const contextMenuClick = new Promise((resolve) => {
+        chrome.contextMenus.onClicked.addListener(info => resolve(info))
     });
+
+    contextMenuClick.then(
+        (info: IFrame) => {
+            if (info.menuItemId == "selected") {
+                const optionsUrl = chrome.extension.getURL('separateTab.html');
+                createNewTabs(optionsUrl, info);
+
+            }
+        });
 };
+
 /**
  * Функция создания новой вкладки
  */
@@ -68,7 +75,6 @@ const createNewTabs = (optionsUrl: string, info: IFrame) => {
                 });
             }
         });
-
     })
 };
 

@@ -7,7 +7,6 @@ import * as React from 'react';
  */
 
 export default function Popup() {
-
     return (
         <div className="popup_container">
             <div id="popupHeader">
