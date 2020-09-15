@@ -16,4 +16,11 @@ body, html {
    text-align: center;
    font-size: xx-large;
    font-weight: bold;
+   &-text{
+      animation: changeText 4s infinite alternate;
+   }
+}
+@keyframes changeText{
+   from { color: red; font-size: small }
+   to { color: wheat; font-size: x-large }
 }
