@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+
 /**
  * Компонент контейнер отдельной вкладки
  * @returns {any}
@@ -13,7 +14,7 @@ export default function SeparateTab() {
     }, []);
 
     const [selectionWord, setSelectionWord] = React.useState<string>('');
-    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         switch (request.message) {
             case 'setText':
                 setSelectionWord(request.data.selectionWord);
