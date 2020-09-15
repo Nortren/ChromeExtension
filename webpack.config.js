@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const {ImageminWebpackPlugin} = require("imagemin-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -12,27 +13,27 @@ function generateHtmlPlugins(templateDir) {
         const parts = item.split('.');
         const name = parts[0];
         const extension = parts[1];
+        const injectStatus = name === 'index';
         return new HtmlWebpackPlugin({
             filename: `${name}.html`,
             template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`),
-            inject: false,
+            inject: true,
         })
     })
 }
 
-const htmlPlugins = generateHtmlPlugins('./Client/templates/');
+const htmlPlugins = generateHtmlPlugins('./src/templates/');
 
 module.exports = {
-    entry: "./Client/App.js",
-    devServer: {
-        host: '127.0.0.1',
-        compress: true,
-        disableHostCheck: true
+    entry: {
+        popup: path.join(__dirname, "src/index.tsx"),
+        eventPage: path.join(__dirname, "src/eventPage.ts")
     },
     output: {
-        path: path.join(__dirname, "/dist"),
-        filename: "index-bundle.js"
-    }, devServer: {
+        path: path.join(__dirname, "dist"),
+        filename: "[name].js"
+    },
+    devServer: {
         host: '127.0.0.1',
         compress: true,
         disableHostCheck: true
@@ -40,14 +41,15 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                test: /\.tsx?$/,
+                use: ["ts-loader"]
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                test: /\.css$/i,
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
+
             {
                 test: /\.(png|gif|jpe?g)$/,
                 use: [
@@ -64,19 +66,13 @@ module.exports = {
     },
     plugins: [
         new CopyWebpackPlugin([
-            {from: 'Client/icon', to: 'Client/icon'},
+            {from: 'src/icon', to: 'src/icon'},
         ]),
-        new HtmlWebpackPlugin({
-            template: "./Client/index.html"
+        new MiniCssExtractPlugin({
+            filename: './src/Components/componentsLibrary.css',
         })
     ].concat(htmlPlugins),
-    optimization: {
-        // minimizer: [
-        // 	new UglifyJSPlugin({ sourceMap: true }),
-        // 	// new ImageminWebpackPlugin({
-        // 	// 	test: /\.(png|jpe?g|gif|svg)$/,
-        // 	// })
-        // ],
-    },
-
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", '.css']
+    }
 };
