@@ -12,7 +12,7 @@ export default function SeparateTab() {
         });
     }, []);
 
-    const [selectionWord, setSelectionWord] = React.useState<string>('test');
+    const [selectionWord, setSelectionWord] = React.useState<string>('');
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         switch (request.message) {
             case 'setText':
@@ -20,13 +20,13 @@ export default function SeparateTab() {
                 break;
 
             default:
-                sendResponse({data: 'Ierror in the passed argument'});
+                sendResponse({data: 'Error in the passed argument'});
                 break;
         }
     });
     return (
         <div className="separateTab_container">
-            {selectionWord}
+            <div className="separateTab_container-text">{selectionWord}</div>
         </div>
     );
 }
